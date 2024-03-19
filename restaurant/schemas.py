@@ -1,13 +1,33 @@
 from pydantic import BaseModel
+from typing import List
+
+
+class UserBasicSchema(BaseModel):
+    username: str
+    email: str
+
+    class Config:
+        from_attributes = True
+
+
+class UserSchema(UserBasicSchema):
+    password: str
 
 
 class OrderSchema(BaseModel):
-    customer: str
+    customer_id: int
     dish: str
+
+    class Config:
+        from_attributes = True
+
+
+class ShowUserSchema(UserBasicSchema):
+    orders: List[OrderSchema] = []  # displaying list of customer's orders
 
 
 class ShowOrderSchema(BaseModel):  # it is used to show specific info in JSON file
-    customer: str
+    customer: UserBasicSchema
     dish: str
 
     class Config:  # way to configure ORM behavior (Pydantic V2 and later)
