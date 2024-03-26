@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException, status
-
-from restaurant import database, models, schemas, hashing
+from restaurant.hashing import Hash
+from restaurant import database, models, schemas
 
 
 class UserServices:
@@ -26,7 +26,7 @@ class UserServices:
     def create_user(request: schemas.UserSchema, db: Session = Depends(database.get_db)):
         """Create a new user."""
         new_user = models.Users(username=request.username, email=request.email,
-                                password=hashing.encrypt(request.password))
+                                password=Hash.encrypt(request.password))
         db.add(new_user)
         db.commit()
         db.refresh(new_user)

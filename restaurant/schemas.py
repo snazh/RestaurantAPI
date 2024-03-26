@@ -32,3 +32,17 @@ class ShowOrderSchema(BaseModel):  # it is used to show specific info in JSON fi
 
     class Config:  # way to configure ORM behavior (Pydantic V2 and later)
         from_attributes = True
+
+
+class LoginSchema(BaseModel):
+    username: str
+    password: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: str | None = None
